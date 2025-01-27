@@ -1,0 +1,51 @@
+﻿@model IEnumerable<NewsLetterBanan.Data.Article>
+
+@{
+    ViewData["Title"] = "GetAllArticles";
+}
+
+<div class="container my-4">
+    <h1 class="mb-4">Articles</h1>
+
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p> <!-- Display no articles found message from ViewBag -->
+    }
+    else
+    {
+        @if (Model != null && Model.Any()) // Ensure that Model is not null and contains articles
+        {
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Headline:</strong> @item.Headline</p>
+                                <p><strong>Content Summary:</strong> @item.ContentSummary</p>
+                                <p><strong>Content:</strong> @item.Content</p>
+                                <p><strong>Category:</strong> @item.Category</p> <!-- Check if Category is null -->
+                                <p><strong>Published Date:</strong> @item.DateStamp.ToString("MMMM dd, yyyy")</p>
+                                <p>
+                                    <strong>Editor's Choice:</strong>
+                                    <span class="badge @(item.IsEditorsChoice ? "bg-success" : "bg-secondary")">
+                                        @(item.IsEditorsChoice ? "Yes" : "No")
+                                    </span>
+                                </p>
+                                <p><strong>Image URL:</strong> @item.ImageUrl</p>
+                                <p><strong>Source URL:</strong> @item.SourceURL</p>
+
+                                <p><strong>Archived:</strong> @(item.IsArchived ? "Yes" : "No")</p>
+                                <p><strong>Comments:</strong> @(item.CommentsOnOff ? "Enabled" : "Disabled")</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No articles available.</p> <!-- Display message when there are no articles -->
+        }
+    }
+</div>

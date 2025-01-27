@@ -1,0 +1,25 @@
+﻿@model IEnumerable<NewsLetterBanan.Data.Article>
+
+<h1>Latest Articles</h1>
+
+<ul>
+    @foreach (var article in Model)
+    {
+        <li>
+            <h3>@article.Headline</h3>
+            <p>@article.ContentSummary</p>
+            <span>Published: @article.DateStamp.ToString("g")</span>
+        </li>
+    }
+</ul>
+
+<h2>Editor's Choice</h2>
+<ul>
+    @foreach (var article in Model.Where(a => a.IsEditorsChoice))
+    {
+        <li>
+            <h3>@article.Headline</h3>
+            <p>@article.ContentSummary</p>
+        </li>
+    }
+</ul>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NewsLetterBanan.Data.Article>
+
+<h1>Manage Articles</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Published Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.</td>
+                <td>@article.DateStamp.ToString("g")</td>
+                <td>
+                    <!-- Edit Article -->
+                    <a class="btn btn-primary" href="/Admin/EditArticle/@article.Id">Edit</a>
+
+                    <!-- Delete Article -->
+                    <form asp-action="DeleteArticle" asp-route-id="@article.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-success" href="/Admin/CreateArticle">Create New Article</a>

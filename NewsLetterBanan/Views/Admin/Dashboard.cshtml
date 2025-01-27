@@ -1,0 +1,21 @@
+﻿<h1>Admin Dashboard</h1>
+
+<ul>
+    <li><a href="/Admin/ManageArticles">Manage Articles</a></li>
+    <li><a href="/Admin/ManageUsers">Manage Users</a></li>
+    <li><a href="/Admin/ManageSubscriptions">Manage Subscriptions</a></li>
+</ul>
+
+
+
+<form method="post" asp-action="AssignRole">
+    <div>
+        <label>User ID</label>
+        <input type="text" name="UserId" required />
+    </div>
+    <div>
+        <label>Role</label>
+        <input type="text" name="RoleName" required />
+    </div>
+    <button type="submit">Assign Role</button>
+</form>

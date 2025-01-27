@@ -1,0 +1,58 @@
+﻿@model NewsLetterBanan.Models.CreateArticleViewModel
+
+<form asp-action="CreateArticle" method="post">
+    <div class="form-group">
+        <label for="Headline">Headline</label>
+        <input type="text" id="Headline" name="Headline" class="form-control" value="@Model.Headline" />
+    </div>
+
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea id="Content" name="Content" class="form-control">@Model.Content</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ContentSummary">Content Summary</label>
+        <textarea id="ContentSummary" name="ContentSummary" class="form-control">@Model.ContentSummary</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ImageUrl">Image URL</label>
+        <input type="text" id="ImageUrl" name="ImageUrl" class="form-control" value="@Model.ImageUrl" />
+    </div>
+
+    <div class="form-group">
+        <label for="Category">Category</label>
+        <input type="text" id="Category" name="Category" class="form-control" value="@Model.Category" />
+    </div>
+
+    <div class="form-group">
+        <label for="SourceURL">Source URL</label>
+        <input type="text" id="SourceURL" name="SourceURL" class="form-control" value="@Model.SourceURL" />
+    </div>
+    <div>
+        <label asp-for="IsEditorsChoice">Is Editor's Choice</label>
+        <input type="checkbox" id="IsEditorsChoice" name="IsEditorsChoice" value="true" @(Model.IsEditorsChoice ? "checked" : "") />
+    </div>
+    <div class="form-group">
+        <label for="TagName">Tag Name</label>
+        <input type="text" id="TagName" name="TagName" class="form-control" value="@Model.TagName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="TagDescription">Tag Description</label>
+        <textarea id="TagDescription" name="TagDescription" class="form-control" required>@Model.TagDescription</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="IsArchived">Is Archived</label>
+        <input type="checkbox" id="IsArchived" name="IsArchived" value="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="CommentsOnOff">Comments On/Off</label>
+        <input type="checkbox" id="CommentsOnOff" name="CommentsOnOff" value="true" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Article</button>
+</form>
