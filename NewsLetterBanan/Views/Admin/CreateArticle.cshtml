@@ -1,5 +1,4 @@
 ﻿@model NewsLetterBanan.Models.CreateArticleViewModel
-
 <form asp-action="CreateArticle" method="post">
     <div class="form-group">
         <label for="Headline">Headline</label>
@@ -21,19 +20,27 @@
         <input type="text" id="ImageUrl" name="ImageUrl" class="form-control" value="@Model.ImageUrl" />
     </div>
 
+ 
     <div class="form-group">
-        <label for="Category">Category</label>
-        <input type="text" id="Category" name="Category" class="form-control" value="@Model.Category" />
+        <label for="CategoryName">Category Name</label>
+        <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@Model.CategoryName" />
+    </div>
+
+    <div class="form-group">
+        <label for="CategoryDescription">Category Description</label>
+        <textarea id="CategoryDescription" name="CategoryDescription" class="form-control">@Model.CategoryDescription</textarea>
     </div>
 
     <div class="form-group">
         <label for="SourceURL">Source URL</label>
         <input type="text" id="SourceURL" name="SourceURL" class="form-control" value="@Model.SourceURL" />
     </div>
-    <div>
-        <label asp-for="IsEditorsChoice">Is Editor's Choice</label>
+
+    <div class="form-group">
+        <label for="IsEditorsChoice">Is Editor's Choice</label>
         <input type="checkbox" id="IsEditorsChoice" name="IsEditorsChoice" value="true" @(Model.IsEditorsChoice ? "checked" : "") />
     </div>
+
     <div class="form-group">
         <label for="TagName">Tag Name</label>
         <input type="text" id="TagName" name="TagName" class="form-control" value="@Model.TagName" required />
@@ -56,3 +63,4 @@
 
     <button type="submit" class="btn btn-primary">Create Article</button>
 </form>
+

@@ -24,7 +24,24 @@
                                 <p><strong>Headline:</strong> @item.Headline</p>
                                 <p><strong>Content Summary:</strong> @item.ContentSummary</p>
                                 <p><strong>Content:</strong> @item.Content</p>
-                                <p><strong>Category:</strong> @item.Category</p> <!-- Check if Category is null -->
+                                <p>
+                                    <strong>Category:</strong>
+                                    @if (item.Categories != null && item.Categories.Count == 1)
+                                    {
+                                        @item.Categories.First().Name
+                                    }
+                                    else if (item.Categories != null && item.Categories.Count > 1)
+                                    {
+                                        @string.Join(", ", item.Categories.Select(c => c.Name))
+                                        // In case multiple exist
+
+                                    }
+                                    else
+                                    {
+                                        <span>No Category</span>
+                                    }
+                                </p>
+
                                 <p><strong>Published Date:</strong> @item.DateStamp.ToString("MMMM dd, yyyy")</p>
                                 <p>
                                     <strong>Editor's Choice:</strong>

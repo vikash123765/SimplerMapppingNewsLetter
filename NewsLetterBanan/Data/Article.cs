@@ -7,7 +7,6 @@ namespace NewsLetterBanan.Data
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
         public int Id { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -37,15 +36,15 @@ namespace NewsLetterBanan.Data
         public int Likes { get; set; } = 0;
         public bool IsEditorsChoice { get; set; }
 
-        // Simplified Category as a string
-        public string Category { get; set; } = string.Empty;
-
         // Many-to-many relationship with Tag
-        public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
+
+        // Many-to-many relationship with Category
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
 
         public virtual User User { get; set; } // The author of the article
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public virtual ICollection<UserLikes> UserLikes { get; set; } = new List<UserLikes>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+        public virtual ICollection<UserLikes> UserLikes { get; set; } = new HashSet<UserLikes>();
     }
 
 }

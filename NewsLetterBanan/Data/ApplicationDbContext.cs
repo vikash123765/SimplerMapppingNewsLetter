@@ -16,6 +16,7 @@ namespace NewsLetterBanan.Data
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<WeatherForecast> WeatherForecast { get; set; }
         public virtual DbSet<UserCommentLikes> UserCommentLikes { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -34,6 +35,15 @@ namespace NewsLetterBanan.Data
                     "ArticleTag",  // Join table name
                     at => at.HasOne<Tag>().WithMany().HasForeignKey("TagId"),
                     at => at.HasOne<Article>().WithMany().HasForeignKey("ArticleId"));
+
+            // Many-to-many relationship between Article and Category
+            modelBuilder.Entity<Article>()
+                .HasMany(a => a.Categories)
+                .WithMany(c => c.Articles)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ArticleCategory", // Join table name
+                    ac => ac.HasOne<Category>().WithMany().HasForeignKey("CategoryId"),
+                    ac => ac.HasOne<Article>().WithMany().HasForeignKey("ArticleId"));
         
 
         modelBuilder.Entity<UserLikes>()

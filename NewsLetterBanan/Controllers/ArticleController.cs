@@ -23,6 +23,7 @@ namespace NewsLetterBanan.Controllers
         {
             // Option 1: Using DbContext directly (if you want to get all articles)
             var allArticles = await _context.Articles
+                 .Include(a => a.Categories)
                 .OrderByDescending(a => a.DateStamp) // Optional: order by PublishedDate
                 .ToListAsync();
 

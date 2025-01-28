@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Reflection.Metadata;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using NewsLetterBanan.Data;
 using NewsLetterBanan.Models;
 using NewsLetterBanan.Services.Interfaces;
@@ -68,70 +70,80 @@ namespace NewsLetterBanan.Controllers
         }
 
 
-
         [HttpPost("CreateArticle")]
         public IActionResult CreateArticle(CreateArticleViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                Console.WriteLine("Received form submission for CreateArticle.");
-
-                if (ModelState.IsValid)
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
                 {
-                    Console.WriteLine("Model state is valid, proceeding with saving article.");
+                    return StatusCode(403, "User is not authenticated.");
+                }
 
-                    // Get current user's ID
-                    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                    if (string.IsNullOrEmpty(userId))
-                    {
-                        return StatusCode(403, "User is not logged in or authenticated.");
-                    }
+                // Create the Article
+                var article = new Article
+                {
+                    Headline = model.Headline,
+                    Content = model.Content,
+                    ContentSummary = model.ContentSummary,
+                    ImageUrl = model.ImageUrl,
+                    DateStamp = model.DateStamp,
+                    SourceURL = model.SourceURL,
+                    IsArchived = false,
+                    CommentsOnOff = true,
+                    UserId = userId
+                };
 
-                    // Create and save the Article
-                    var article = new Article
-                    {
-                        Headline = model.Headline,
-                        Content = model.Content,
-                        ContentSummary = model.ContentSummary,
-                        ImageUrl = model.ImageUrl,
-                        DateStamp = model.DateStamp == default ? DateTime.Now : model.DateStamp,
-                        Category = model.Category,
-                        SourceURL = model.SourceURL,
-                        IsArchived = model.IsArchived,
-                        CommentsOnOff = model.CommentsOnOff,
-                        UserId = userId
-                    };
-
-                    _context.Articles.Add(article);
-                    _context.SaveChanges();
-
-                    // Create and save the Tag
-                    var tag = new Tag
+                // Handle Tag logic
+                var existingTag = _context.Tags.FirstOrDefault(t => t.TagName == model.TagName);
+                if (existingTag != null)
+                {
+                    // Use the existing tag
+                    article.Tags.Add(existingTag);
+                }
+                else
+                {
+                    // Create a new tag
+                    var newTag = new Tag
                     {
                         TagName = model.TagName,
                         TagDescription = model.TagDescription
                     };
+                    _context.Tags.Add(newTag);
+                    article.Tags.Add(newTag);
+                }
 
-                    _context.Tags.Add(tag);
-                    _context.SaveChanges();
+            
+                var existingCategory = _context.Categories.FirstOrDefault(c => c.Name == model.CategoryName);
 
-                    // Associate the tag with the article
-                    article.Tags.Add(tag);
-                    _context.SaveChanges();
-
-                    return RedirectToAction("ManageArticles");
+               
+                if (existingCategory != null)
+                {
+                    // Use the existing tag
+                    article.Categories.Add(existingCategory);
                 }
                 else
                 {
-                    Console.WriteLine("Model validation failed.");
-                    return View(model); // Return form with validation errors
+                    // Create a new category
+                    var newCategory = new Category
+                    {
+                        Name = model.CategoryName,
+                        Description = model.CategoryDescription
+                    };
+                    _context.Categories.Add(newCategory);
+                    article.Categories.Add(newCategory);
                 }
+
+                // Save the article
+                _context.Articles.Add(article);
+                _context.SaveChanges();
+
+                return RedirectToAction("ManageArticles");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in POST CreateArticle: {ex.Message}");
-                return StatusCode(500, "An error occurred while saving the article.");
-            }
+
+       
+            return View(model);
         }
 
 
