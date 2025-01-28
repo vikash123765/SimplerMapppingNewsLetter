@@ -152,27 +152,106 @@ namespace NewsLetterBanan.Controllers
         [HttpGet("EditArticle/{id}")]
         public async Task<IActionResult> EditArticle(int id)
         {
-            var article = await _context.Articles.FindAsync(id);
+            var article = await _context.Articles
+                .Include(a => a.Categories)
+                .Include(a => a.Tags)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (article == null)
             {
                 return NotFound(); // Return NotFound if the article doesn't exist
             }
+             
+            var viewModel = new CreateArticleViewModel
+            {
+               
+                Headline = article.Headline,
+                Content = article.Content,
+                ContentSummary = article.ContentSummary,
+                ImageUrl = article.ImageUrl,
+                SourceURL = article.SourceURL,
+                IsArchived = article.IsArchived,
+                CommentsOnOff = article.CommentsOnOff,
+                IsEditorsChoice = article.IsEditorsChoice,
+                CategoryName = article.Categories.FirstOrDefault()?.Name, // Assuming the article has a primary category
+                CategoryDescription = article.Categories.FirstOrDefault()?.Description, // Assuming the article has a primary category
+                TagName = article.Tags.FirstOrDefault()?.TagName, // Assuming the article has at least one tag
+                TagDescription = article.Tags.FirstOrDefault()?.TagDescription // Assuming the article has at least one tag
+            };
 
-            return View(article); // Pass the article to the view for editing
+            return View(viewModel); // Pass the view model to the view for editing
         }
 
         // POST: /Admin/EditArticle/{id}
         [HttpPost("EditArticle/{id}")]
-        public async Task<IActionResult> EditArticle(int id, Article article)
+        public async Task<IActionResult> EditArticle(int id, CreateArticleViewModel viewModel)
         {
-            if (id != article.Id)
-            {
-                return NotFound(); // Ensure the article ID matches
-            }
+         
 
             if (ModelState.IsValid)
             {
-                _context.Articles.Update(article); // Update the article
+                var article = await _context.Articles
+                    .Include(a => a.Categories)
+                    .Include(a => a.Tags)
+                    .FirstOrDefaultAsync(a => a.Id == id);
+
+                if (article == null)
+                {
+                    return NotFound(); // Return NotFound if the article doesn't exist
+                }
+
+                // Update the article properties
+                article.Headline = viewModel.Headline;
+                article.Content = viewModel.Content;
+                article.ContentSummary = viewModel.ContentSummary;
+                article.ImageUrl = viewModel.ImageUrl;
+                article.SourceURL = viewModel.SourceURL;
+                article.IsArchived = viewModel.IsArchived;
+                article.CommentsOnOff = viewModel.CommentsOnOff;
+                article.IsEditorsChoice = viewModel.IsEditorsChoice;
+
+                // Handle Category - if not already in database, create it
+                var existingCategory = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.Name == viewModel.CategoryName);
+
+                if (existingCategory == null)
+                {
+                    var newCategory = new Category
+                    {
+                        Name = viewModel.CategoryName,
+                        Description = viewModel.CategoryDescription
+                    };
+                  
+                    article.Categories.Add(newCategory);
+                }
+                else
+                {
+                   
+                    article.Categories.Add(existingCategory);
+                }
+
+                // Handle Tag - if not already in database, create it
+                var existingTag = await _context.Tags
+                    .FirstOrDefaultAsync(t => t.TagName == viewModel.TagName);
+
+                if (existingTag == null)
+                {
+                    var newTag = new Tag
+                    {
+                        TagName = viewModel.TagName,
+                        TagDescription = viewModel.TagDescription
+                    };
+                    // Remove the existing tags and add the new one
+                 
+                    article.Tags.Add(newTag);
+                }
+                else
+                {
+                   
+                    article.Tags.Add(existingTag);
+                }
+
+                // Save the changes to the database
                 await _context.SaveChangesAsync();
 
                 // Flash success message (optional)
@@ -182,8 +261,9 @@ namespace NewsLetterBanan.Controllers
             }
 
             // If model state is invalid, redisplay the form with errors
-            return View(article);
+            return View(viewModel);
         }
+
 
 
         // POST: /Admin/DeleteArticle/{id}
@@ -276,8 +356,8 @@ namespace NewsLetterBanan.Controllers
             return RedirectToAction("ManageUsers");
         }
 
-        [HttpPost("assign-role")]
-        public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequest request)
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole( AssignRoleRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.UserId);
             if (user == null)

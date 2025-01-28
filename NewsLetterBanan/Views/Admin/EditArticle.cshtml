@@ -1,87 +1,73 @@
-﻿@* @model NewsLetterBanan.Data.Article
+﻿@model NewsLetterBanan.Models.CreateArticleViewModel
 
 <h1>Edit Article</h1>
 
 <form asp-action="EditArticle" method="post">
-	<
-	<div class="form-group">
-		<label asp-for="Headline" class="control-label"></label>
-		<input asp-for="Headline" class="form-control" />
-		<span asp-validation-for="Headline" class="text-danger"></span>
-	</div>input type="hidden" asp-for="Id" />
-
-
-
     <div class="form-group">
-        <label asp-for="Content" class="control-label"></label>
-        <textarea asp-for="Content" class="form-control"></textarea>
-        <span asp-validation-for="Content" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="ContentSummary" class="control-label"></label>
-        <textarea asp-for="ContentSummary" class="form-control"></textarea>
-        <span asp-validation-for="ContentSummary" class="text-danger"></span>
+        <label for="Headline">Headline</label>
+        <input type="text" id="Headline" name="Headline" class="form-control" value="@Model.Headline" required />
     </div>
 
     <div class="form-group">
-        <label asp-for="SourceURL" class="control-label"></label>
-        <input asp-for="SourceURL" class="form-control" />
-        <span asp-validation-for="SourceURL" class="text-danger"></span>
+        <label for="Content">Content</label>
+        <textarea id="Content" name="Content" class="form-control" required>@Model.Content</textarea>
     </div>
 
     <div class="form-group">
-        <label asp-for="CategoryId" class="control-label"></label>
-        <select asp-for="CategoryId" class="form-control">
-        </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
+        <label for="ContentSummary">Content Summary</label>
+        <textarea id="ContentSummary" name="ContentSummary" class="form-control">@Model.ContentSummary</textarea>
     </div>
 
     <div class="form-group">
-        <label asp-for="ArticleTagId" class="control-label"></label>
-        <select asp-for="ArticleTagId" class="form-control">
-        </select>
-        <span asp-validation-for="ArticleTagId" class="text-danger"></span>
+        <label for="ImageUrl">Image URL</label>
+        <input type="text" id="ImageUrl" name="ImageUrl" class="form-control" value="@Model.ImageUrl" />
     </div>
 
     <div class="form-group">
-        <label asp-for="ImageUrl" class="control-label"></label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        <label for="SourceURL">Source URL</label>
+        <input type="text" id="SourceURL" name="SourceURL" class="form-control" value="@Model.SourceURL" />
     </div>
 
     <div class="form-group">
-        <label asp-for="DateStamp" class="control-label"></label>
-        <input asp-for="DateStamp" type="datetime-local" class="form-control" />
-        <span asp-validation-for="DateStamp" class="text-danger"></span>
+        <label for="IsEditorsChoice">Is Editor's Choice</label>
+        <input type="checkbox" id="IsEditorsChoice" name="IsEditorsChoice" value="true" @(Model.IsEditorsChoice ? "checked" : "") />
     </div>
 
     <div class="form-group">
-        <label asp-for="IsEditorsChoice" class="control-label"></label>
-        <input asp-for="IsEditorsChoice" type="checkbox" />
-        <span asp-validation-for="IsEditorsChoice" class="text-danger"></span>
+        <label for="CategoryName">Category Name</label>
+        <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@Model.CategoryName" required />
     </div>
 
     <div class="form-group">
-        <label asp-for="IsArchived" class="control-label"></label>
-        <input asp-for="IsArchived" type="checkbox" />
-        <span asp-validation-for="IsArchived" class="text-danger"></span>
+        <label for="CategoryDescription">Category Description</label>
+        <textarea id="CategoryDescription" name="CategoryDescription" class="form-control" required>@Model.CategoryDescription</textarea>
     </div>
 
     <div class="form-group">
-        <label asp-for="CommentsOnOff" class="control-label"></label>
-        <input asp-for="CommentsOnOff" type="checkbox" />
-        <span asp-validation-for="CommentsOnOff" class="text-danger"></span>
+        <label for="TagName">Tag Name</label>
+        <input type="text" id="TagName" name="TagName" class="form-control" value="@Model.TagName" required />
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <label for="TagDescription">Tag Description</label>
+        <textarea id="TagDescription" name="TagDescription" class="form-control" required>@Model.TagDescription</textarea>
     </div>
+
+    <div class="form-group">
+        <label for="IsArchived">Is Archived</label>
+        <input type="checkbox" id="IsArchived" name="IsArchived" value="true" @(Model.IsArchived ? "checked" : "") />
+    </div>
+
+    <div class="form-group">
+        <label for="CommentsOnOff">Comments On/Off</label>
+        <input type="checkbox" id="CommentsOnOff" name="CommentsOnOff" value="true" @(Model.CommentsOnOff ? "checked" : "") />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-} *@
+}

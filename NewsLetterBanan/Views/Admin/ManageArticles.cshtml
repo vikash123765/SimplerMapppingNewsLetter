@@ -2,11 +2,13 @@
 
 <h1>Manage Articles</h1>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Title</th>
             <th>Published Date</th>
+            <th>Editor’s Choice</th>
+            <th>Archived</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -14,8 +16,12 @@
         @foreach (var article in Model)
         {
             <tr>
-                <td>@article.</td>
-                <td>@article.DateStamp.ToString("g")</td>
+                <td>@article.Headline</td> <!-- Display the headline of the article -->
+           
+                
+                <td>@article.DateStamp.ToString("g")</td> <!-- Display the formatted published date -->
+                <td>@(article.IsEditorsChoice ? "Yes" : "No")</td> <!-- Check if the article is editor's choice -->
+                <td>@(article.IsArchived ? "Yes" : "No")</td> <!-- Check if the article is archived -->
                 <td>
                     <!-- Edit Article -->
                     <a class="btn btn-primary" href="/Admin/EditArticle/@article.Id">Edit</a>
