@@ -7,11 +7,10 @@ namespace NewsLetterBanan.Data
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public required int Id { get; set; }
+        public  int Id { get; set; }
 
-        [Required]
-        public required int SubscriptionsTypeId { get; set; } // FK
-        public virtual SubscriptionsType SubscriptionsType { get; set; } // Navigation property (relation TO ONE)
+    
+        public string SubscriptionType { get; set; } // Navigation property (relation TO ONE)
 
         [Column(TypeName = "decimal(5, 2)")]
         public required decimal Price { get; set; }
@@ -24,6 +23,6 @@ namespace NewsLetterBanan.Data
         public virtual User User { get; set; } // Navigation property (relation TO ONE)
 
         public required bool PaymentComplete { get; set; } = false;
-        public required bool RenewalReminderSent { get; set; } = false;
+        public  bool RenewalReminderSent { get; set; } = false;
     }
 }

@@ -9,7 +9,7 @@ namespace NewsLetterBanan.Data
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public required int Id { get; set; }
+        public  int Id { get; set; }
 
         [Required]
         public required int ArticleId { get; set; }

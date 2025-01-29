@@ -1,0 +1,141 @@
+﻿@model NewsLetterBanan.Models.ViewModels.ActionViewModel
+
+
+
+@{
+    ViewData["Title"] = "User Actions";
+}
+
+<h2>Perform an Action</h2>
+
+<!-- Add Comment Form -->
+<form method="post" action="/User/SubmitAction">
+    <h3>Add Comment</h3>
+    <div class="form-group">
+        <label for="ArticleId">Article Id</label>
+        <input type="number" name="ArticleId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="UserId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea name="Content" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+    <input type="hidden" name="action" value="AddComment" />
+</form>
+
+<!-- Delete Comment Form -->
+<form method="post" action="/User/SubmitAction">
+    <h3>Delete Comment</h3>
+    <div class="form-group">
+        <label for="CommentId">Comment Id</label>
+        <input type="number" name="CommentId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="UserId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-danger">Delete Comment</button>
+    <input type="hidden" name="action" value="DeleteComment" />
+</form>
+
+<!-- Edit Comment Form -->
+<form method="post" action="/User/SubmitAction">
+    <h3>Edit Comment</h3>
+    <div class="form-group">
+        <label for="CommentId">Comment Id</label>
+        <input type="number" name="CommentId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="UserId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Content">New Content</label>
+        <textarea name="Content" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-warning">Edit Comment</button>
+    <input type="hidden" name="action" value="EditComment" />
+</form>
+
+
+<!-- Like Article Form -->
+<form method="post" action="/User/SubmitAction">
+    <h3>Like Article</h3>
+    <div class="form-group">
+        <label for="ArticleId">Article Id</label>
+        <input type="number" name="ArticleId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="UserId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Like Article</button>
+    <input type="hidden" name="action" value="LikeArticle" />
+</form>
+
+<!-- Unlike Article Form -->
+<form method="post" action="/User/SubmitAction">
+    <h3>Unlike Article</h3>
+    <div class="form-group">
+        <label for="ArticleId">Article Id</label>
+        <input type="number" name="ArticleId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="UserId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-secondary">Unlike Article</button>
+    <input type="hidden" name="action" value="UnlikeArticle" />
+</form>
+
+<form method="post" action="/User/LikeComment">
+    <h3>Like Comment</h3>
+    <div class="form-group">
+        <label for="CommentId">Comment Id</label>
+        <input type="number" name="commentId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="userId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Like Comment</button>
+</form>
+<!-- Unlike Comment Form -->
+<form method="post" action="/User/UnlikeComment">
+    <h3>Unlike Comment</h3>
+    <div class="form-group">
+        <label for="CommentId">Comment Id</label>
+        <input type="number" name="commentId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="userId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-danger">Unlike Comment</button>
+</form>
+
+<!-- Check If Comment is Liked -->
+<form method="get" action="/User/IsCommentLiked">
+    <h3>Check If Comment is Liked</h3>
+    <div class="form-group">
+        <label for="CommentId">Comment Id</label>
+        <input type="number" name="commentId" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserId">User Id</label>
+        <input type="text" name="userId" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Check Like Status</button>
+</form>
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+

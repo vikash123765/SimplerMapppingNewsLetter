@@ -26,13 +26,17 @@ namespace NewsLetterBanan.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var articles = await _context.Articles
-                .Where(a => a.IsEditorsChoice) // Filter for editor's choice
-                .OrderByDescending(a => a.DateStamp) // Order by latest date
-                .Take(10) // Optionally, limit to top 10 articles
-                .ToListAsync();
+            var latestArticles = await _context.Articles.OrderByDescending(a => a.DateStamp).Take(5).ToListAsync();
+            var editorsChoice = await _context.Articles.Where(a => a.IsEditorsChoice).OrderByDescending(a => a.DateStamp).Take(3).ToListAsync();
 
-            return View(articles);
+            var viewModel = new NewsLetterBanan.Models.ViewModels.HomePageViewModel
+            {
+                Latest = latestArticles,
+                EditorsChoice = editorsChoice
+            };
+
+
+            return View(viewModel);  // This will return the Index view
         }
 
 

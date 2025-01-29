@@ -1,25 +1,57 @@
-﻿@model IEnumerable<NewsLetterBanan.Data.Article>
+﻿@model NewsLetterBanan.Models.ViewModels.HomePageViewModel
 
-<h1>Latest Articles</h1>
+<div class="container my-4">
+    <!-- Latest Articles Section -->
+    <h2 class="mb-4">Latest Articles</h2>
+    <div class="row">
+        @foreach (var article in Model.Latest)
 
-<ul>
-    @foreach (var article in Model)
-    {
-        <li>
-            <h3>@article.Headline</h3>
-            <p>@article.ContentSummary</p>
-            <span>Published: @article.DateStamp.ToString("g")</span>
-        </li>
-    }
-</ul>
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Title:</strong> @article.Headline
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Content:</strong> @article.Content</p>
+                        <p><strong>Category:</strong> @article.Categories</p>
+                        <p><strong>Published Date:</strong> @article.DateStamp.ToString("MMMM dd, yyyy")</p>
+                        <p>
+                            <strong>Editor's Choice:</strong>
+                            <span class="badge @(article.IsEditorsChoice ? "bg-success" : "bg-secondary")">
+                                @(article.IsEditorsChoice ? "Yes" : "No")
+                            </span>
+                        </p>
+                        <p><strong>Image URL:</strong> @article.ImageUrl</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 
-<h2>Editor's Choice</h2>
-<ul>
-    @foreach (var article in Model.Where(a => a.IsEditorsChoice))
-    {
-        <li>
-            <h3>@article.Headline</h3>
-            <p>@article.ContentSummary</p>
-        </li>
-    }
-</ul>
+    <!-- Editor's Choice Section -->
+    <h2 class="mb-4">Editor's Choice</h2>
+    <div class="row">
+        @foreach (var article in Model.EditorsChoice)
+
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Title:</strong> @article.Headline
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Content:</strong> @article.Content</p>
+                        <p><strong>Category:</strong> @article.Categories</p>
+                        <p><strong>Published Date:</strong> @article.DateStamp.ToString("MMMM dd, yyyy")</p>
+                        <p>
+                            <strong>Editor's Choice:</strong>
+                            <span class="badge bg-success">Yes</span>
+                        </p>
+                        <p><strong>Image URL:</strong> @article.ImageUrl</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

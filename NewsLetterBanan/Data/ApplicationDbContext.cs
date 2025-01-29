@@ -12,7 +12,7 @@ namespace NewsLetterBanan.Data
         public virtual DbSet<Subscription> Subscriptions { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<UserLikes> UserLikes { get; set; }
-        public virtual DbSet<SubscriptionsType> SubscriptionsTypes { get; set; }
+      
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<WeatherForecast> WeatherForecast { get; set; }
         public virtual DbSet<UserCommentLikes> UserCommentLikes { get; set; }
